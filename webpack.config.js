@@ -1,6 +1,8 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');  // 删除目录插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');  // 生成html文档
+const WebpackDevServer = require('webpack-dev-server');  // 服务器
+const webpack = require('webpack');
 
 module.exports = {
 	entry: {  // 入口配置
@@ -10,6 +12,13 @@ module.exports = {
 	output: { // 出口配置
 		filename: '[name]-[hash].bunld.js',  // 输出文件名
 		path: path.join(__dirname, 'dist') // 输入目录
+	},
+	devServer: {  // 服务器，配置后需要在package.json中修改启动项
+		contentBase: path.join(__dirname, 'dist'), // 设置服务器访问的基本目录
+		host: 'localhost',  //服务器地址
+		port: 8080,  //端口号
+		open: true,  // 是否打开浏览器
+		hot: true, // 是否热更新(需要依赖 webpack.HotModuleReplacementPlugin)插件
 	},
 	plugins: [
 		new CleanWebpackPlugin(['dist']),  // 清除 dist 目录
@@ -32,6 +41,7 @@ module.exports = {
 			title: 'Hello test!',
 			filename: 'test.html',
 			chunks: ['test']
-		})
+		}),
+		new webpack.HotModuleReplacementPlugin() // 热更新
 	]
 };
