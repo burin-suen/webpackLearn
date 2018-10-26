@@ -2,6 +2,8 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');  // 删除目录插件
 const HtmlWebpackPlugin = require('html-webpack-plugin');  // 生成html文档
 const WebpackDevServer = require('webpack-dev-server');  // 服务器
+const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');  // 压缩插件, webpack4.x已实现生产环境自动压缩
+const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');  // 分离css
 const webpack = require('webpack');
 
 module.exports = {
@@ -31,19 +33,34 @@ module.exports = {
 				test: /\.css$/,
 				//loader: ['style-loader', 'css-loader']  // 第一种写法
 				//use: ['style-loader', 'css-loader']  // 第二种写法
-				use: [
-					{loader: 'style-loader'},
-					{loader: 'css-loader'},
-					{loader: 'postcss-loader'}  // 处理css前缀
-				]
+				// use: [
+				// 	{loader: 'style-loader'},
+				// 	{loader: 'css-loader'},
+				// 	{loader: 'postcss-loader'}  // 处理css前缀
+				// ]
+				use: ExtractTextWebpackPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'postcss-loader'],
+					publicPath: '../'    // 解决css背景图路径问题
+				})
 			},
 			{
 				test: /\.less$/,
-				use: ['style-loader', 'css-loader', 'less-loader']
+				//use: ['style-loader', 'css-loader', 'less-loader']
+				use: ExtractTextWebpackPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'less-loader'],
+					publicPath: '../'    // 解决css背景图路径问题
+				})
 			},
 			{
 				test: /\.(scss|sass)$/,
-				use: ['style-loader', 'css-loader', 'sass-loader']
+				//use: ['style-loader', 'css-loader', 'sass-loader']
+				use: ExtractTextWebpackPlugin.extract({
+					fallback: 'style-loader',
+					use: ['css-loader', 'sass-loader'],
+					publicPath: '../'    // 解决css背景图路径问题
+				})
 			},
 			{
 				test: /\.(png|gif|jpe?g|svg)/,
@@ -88,6 +105,8 @@ module.exports = {
 			filename: 'test.html',
 			chunks: ['test']
 		}),
-		new webpack.HotModuleReplacementPlugin() // 热更新
+		new webpack.HotModuleReplacementPlugin(), // 热更新
+		new UglifyjsWebpackPlugin(),  // 资源压缩插件， webpack4.x已实现生产环境自动压缩
+		new ExtractTextWebpackPlugin('css/index.css'),  // 提取css
 	]
 };
