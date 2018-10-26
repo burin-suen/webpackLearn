@@ -13,3 +13,10 @@ img {
     width: 200px;
     height: auto;
 }
+
+.div4 {
+    width: 50px;
+    height: 50px;
+    background-color: darkcyan;
+    transform: rotate(45deg);
+}

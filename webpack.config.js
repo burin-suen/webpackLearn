@@ -33,7 +33,8 @@ module.exports = {
 				//use: ['style-loader', 'css-loader']  // 第二种写法
 				use: [
 					{loader: 'style-loader'},
-					{loader: 'css-loader'}
+					{loader: 'css-loader'},
+					{loader: 'postcss-loader'}  // 处理css前缀
 				]
 			},
 			{
@@ -55,6 +56,11 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.m?js$/,
+				use: ['babel-loader'],
+				exclude: /node_modules/  // 不包含node_modules目录
 			}
 		]
 	},
