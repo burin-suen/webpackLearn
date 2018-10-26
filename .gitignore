@@ -36,6 +36,12 @@ build/Release
 node_modules/
 jspm_packages/
 
+# webstorm config
+.idea/
+
+# webpack create directories
+dist/
+
 # TypeScript v1 declaration files
 typings/
 
