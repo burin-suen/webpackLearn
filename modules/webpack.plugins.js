@@ -3,6 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');  // 删除目录插�
 const HtmlWebpackPlugin = require('html-webpack-plugin');  // 生成html文档
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin');  // 压缩插件, webpack4.x已实现生产环境自动压缩
 const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');  // 分离css
+const CopyWebpackPlugin = require('copy-webpack-plugin'); // 静态资源输出
 const webpack = require('webpack');
 
 const plugins = [
@@ -32,6 +33,12 @@ const plugins = [
 	new webpack.HotModuleReplacementPlugin(), // 热更新
 	new UglifyjsWebpackPlugin(),  // 资源压缩插件， webpack4.x已实现生产环境自动压缩
 	new ExtractTextWebpackPlugin('css/index.css'),  // 提取css
+	new CopyWebpackPlugin([   // 静态资源输出
+		{
+			from: path.join(__dirname, '../src/assets'),
+			to: './assets'  // 这个路径默认在 dist目录下
+		}
+	])
 ];
 
 module.exports = plugins;
