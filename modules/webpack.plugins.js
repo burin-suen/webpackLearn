@@ -38,7 +38,14 @@ const plugins = [
 			from: path.join(__dirname, '../src/assets'),
 			to: './assets'  // 这个路径默认在 dist目录下
 		}
-	])
+	]),
+	// 通过ProvidePlugin 和 import直接引入的区别：
+	// 1. 通过import引入， 无论是否使用三方库，webpack打包时都会将三方库打包进去
+	//    通过ProvidePlugin方式引入三方库，项目中使用到三方库，webpack才会打包进去
+	//
+	new webpack.ProvidePlugin({  // webpack暴露全局的插件，一般用来将三方库暴露全局
+		$: 'jquery'
+	})
 ];
 
 module.exports = plugins;

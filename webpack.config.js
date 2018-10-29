@@ -20,3 +20,34 @@ module.exports = {
 	module: rules,
 	plugins: plugins
 };
+/*
+	提取js:
+		webapack3.x之前使用webpack.optimize.CommonsChunkPlugin()插件
+			entry: { jquery: 'jquery'},
+			plugins: [
+				new webpack.optimize.CommonsChunkPlugin({
+					name: 'jquery'   // 这里对应entry中声明的key
+				})
+			]
+
+		webpack4.x使用 config.optimization.splitChunks
+			module.exports = {
+				entry: {jquery: 'jquery'},
+				optimization: {
+					splitChunks: {
+						cacheGroups: {
+							vendor(这个key随意): {
+								chunks: 'initial',
+								name: 'jquery',
+								enforce: true
+							},
+							aaa: {
+								chunks: 'initial',
+								name: 'jquery',
+								enforce: true
+							}
+						}
+					}
+				}
+			}
+ */

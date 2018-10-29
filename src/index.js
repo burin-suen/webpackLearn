@@ -20,3 +20,9 @@ class Person {
 
 document.write('Hello Webpack!');
 new Person(num1, num2);
+
+$('#box').css({
+	width: '100px',
+	height: '100px',
+	background: 'yellow'
+});
